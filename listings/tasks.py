@@ -8,11 +8,13 @@ def send_booking_confirmation(booking_id):
     booking = Booking.objects.get(id=booking_id)
     subject = f"Booking Confirmation #{booking.id}"
     message = f"Your booking for {booking.listing.title} has been confirmed!\n\nTotal: {booking.total_price}"
+    from_email = settings.DEFAULT_FROM_EMAIL,
+    to_email = [booking.user.email]
     
     send_mail(
         subject,
         message,
-        settings.DEFAULT_FROM_EMAIL,
-        [booking.user.email],
+        from_email,
+        to_email,
         fail_silently=False,
     )

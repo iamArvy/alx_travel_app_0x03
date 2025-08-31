@@ -154,9 +154,14 @@ REST_FRAMEWORK = {
     ]
 }
 
+# Celery Configuration Options
 CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='amqp://localhost')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND', default='amqp://localhost')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
+
+# Email configuration (dev example: prints emails to console)
+EMAIL_BACKEND = env('EMAIL_BACKEND', default="django.core.mail.backends.console.EmailBackend")
+DEFAULT_FROM_EMAIL = "noreply@example.com"

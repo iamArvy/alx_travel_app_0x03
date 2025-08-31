@@ -30,6 +30,15 @@ class BookingViewSet(viewsets.ModelViewSet):
       if listing_id:
           queryset = queryset.filter(listing_id=listing_id)
       return queryset
+    
+    def perform_create(self, serializer):
+        booking = serializer.save()
+
+        # Trigger async email task if user has email
+        if booking.user and booking.user.email:
+            send_booking_confirmation.delay(
+                booking.user.email, booking.id
+            )
 
 class InitiatePaymentView(APIView):
     def post(self, request, booking_id):
